@@ -2,7 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "custom.css";
-
+/* @import "examples.module.scss"; */
 /* Your own custom component styles */
 
 @layer base {

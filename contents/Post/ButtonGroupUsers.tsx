@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import UserCreate from "../../components/ModalSetting/UserCreate";
 import { useRouter } from "next/router";
 
-export const ButtonGroup = () => {
+export const ButtonGroupUsers = () => {
   const [isSetting , setIsSetting] = useState<boolean>(false);
   const closeModalSetting = () => {
     setIsSetting(false);
   }
-  const openModalSetting = () =>{
-    setIsSetting(true);
+  const handleUserRouter = () =>{
+    router.push("/users");
+    ;
   }
   const router = useRouter()
   const dispatch =useDispatch();
@@ -33,13 +34,13 @@ export const ButtonGroup = () => {
                 }
                
                 `}
-                onClick={openModalSetting}
+                onClick={handleUserRouter}
             >
               <p
                 className={`lg:text-[16px] 2xl:text-[18px] sm:text-[17px] max-sm:hidden lg:tracking-[0.5px] sm:tracking-[3px]   font-semibold font-Inter  text-white ${isdisabled ? `text-opacity-40` : `text-opacity-100`
                   }`}
               >
-                Create
+                Users
               </p>
             </button>
             <UserCreate
