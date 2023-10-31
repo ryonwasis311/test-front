@@ -18,7 +18,7 @@ export interface ModalSettingProps {
   onCloseModalSetting: () => void;
 }
 
-const ModalSetting: FC<ModalSettingProps> = ({
+const UserUdate: FC<ModalSettingProps> = ({
   show,
   onCloseModalSetting,
 }) => {
@@ -28,8 +28,8 @@ const ModalSetting: FC<ModalSettingProps> = ({
   const [email, setEmail] = useState("");
   const [nickname, setNickName] = useState("");
   const [isPass, setIsPass] = useState(true);
-  const [isEmailEdit, setisEmailEdit] = useState(false);
   const [isNameEdit, setNameEdit] = useState(false);
+  const [isEmailEdit, setisEmailEdit] = useState(false);
   const [newImage, setNewImage] = useState<File>();
   const [isSelectImage, setIsSelectImage] = useState(false);
   const [imageFile, setImageFile] = useState<File>();
@@ -295,9 +295,9 @@ const ModalSetting: FC<ModalSettingProps> = ({
       contentExtraClass="max-w-[700px] xl:w-[700px] lg:w-[600px] sm:w-[500px] w-[330px] 2xl:h-[670px] xl:h-[600px] md:h-[570px] h-[400px]"
       renderContent={renderContent}
       renderTrigger={renderTrigger}
-      modalTitle="NEW USER"
+      modalTitle="USER UPDATE"
     />
   );
 };
 
-export default ModalSetting;
+export default UserUdate;

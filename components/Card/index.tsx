@@ -1,14 +1,27 @@
 import Image from "next/image";
-
+import UserUpdate from "../ModalSetting/UserUpdate";
+import { useState } from "react";
 
 export const Card = () => {
+
+  const [isSetting , setIsSetting] = useState<boolean>(false);
+  const closeModalSetting = () => {
+    setIsSetting(false);
+  }
+  const openModalSetting = () =>{
+    setIsSetting(true);
+  }
 
   return (
     <>
       <ul className="w-full divide-y divide-gray-200 dark:divide-gray-700">
+        {/* user information */}
         <li className="pb-3 sm:pb-4 px-10">
           <div className="flex items-center space-x-4">
-            <div className="flex-shrink-0 cursor-pointer">
+            <div
+            onClick={openModalSetting}
+            className="flex-shrink-0 cursor-pointer
+            ">
               <Image
                 width={500}
                 height={500}
@@ -34,13 +47,17 @@ export const Card = () => {
                  `}
               >
                 <p
-                  className={`lg:text-[10px] 2xl:text-[10px] sm:text-[8px] lg:tracking-[0.5px] sm:tracking-[3px]   font-semibold font-Inter  text-whitetext-opacity-100  `}
+                  className={`lg:text-[10px] 2xl:text-[10px] sm:text-[6px] text-[8px] lg:tracking-[0.5px] sm:tracking-[3px]   font-semibold font-Inter  text-whitetext-opacity-100  `}
                 >
                   DELETE
                 </p>
               </button>
             </div>
           </div>
+          <UserUpdate
+            show={isSetting}
+            onCloseModalSetting={closeModalSetting}
+          />
         </li>
         <li className="py-3 sm:py-4 px-10">
           <div className="flex items-center space-x-4">

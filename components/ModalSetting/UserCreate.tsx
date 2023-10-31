@@ -18,7 +18,7 @@ export interface ModalSettingProps {
   onCloseModalSetting: () => void;
 }
 
-const ModalSetting: FC<ModalSettingProps> = ({
+const UserCreate: FC<ModalSettingProps> = ({
   show,
   onCloseModalSetting,
 }) => {
@@ -28,8 +28,8 @@ const ModalSetting: FC<ModalSettingProps> = ({
   const [email, setEmail] = useState("");
   const [nickname, setNickName] = useState("");
   const [isPass, setIsPass] = useState(true);
-  const [isEmailEdit, setisEmailEdit] = useState(false);
   const [isNameEdit, setNameEdit] = useState(false);
+  const [isEmailEdit, setisEmailEdit] = useState(false);
   const [newImage, setNewImage] = useState<File>();
   const [isSelectImage, setIsSelectImage] = useState(false);
   const [imageFile, setImageFile] = useState<File>();
@@ -300,4 +300,4 @@ const ModalSetting: FC<ModalSettingProps> = ({
   );
 };
 
-export default ModalSetting;
+export default UserCreate;
