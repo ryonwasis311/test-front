@@ -6,7 +6,7 @@ const HomePage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/post");
+    router.push("/users");
   }, []);
 
   return null;

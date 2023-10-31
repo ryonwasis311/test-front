@@ -20,11 +20,8 @@ export type UserStatusStrings = keyof typeof EUserStatus;
 export interface IUser {
   uid?: string;
   name: string;
-  nickname: string;
   email?: string;
   password?: string;
-  connected?: boolean;
-  publicKey?: any;
   avatar?: string;
   role?: EUserRole;
   status?: EUserStatus;

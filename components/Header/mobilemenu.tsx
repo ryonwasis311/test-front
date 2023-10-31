@@ -95,41 +95,6 @@ const MobileMenu = ({ conntected, publicKey }): ReactElement => {
                 />
               </div>
             </li>
-            <li className="flex justify-center">
-              <ButtonPrimary
-                sizeClass={`mt-[50px] ${
-                  isDesktop && "w-[190px]"
-                }  w-[200px] sm:w-[340px] 2xl:h-[50px] h-[40px]`}
-                fontSize={`font-[600] ${
-                  isDesktop && "text-[16px]"
-                }] text-[10px]`}
-                className={`rounded-[20px] mt-[10px]}`}
-                onClick={getAccount}
-              >
-                <WalletMultiButton
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    padding: "0px",
-                    margin: "0px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignContent: "center",
-                    backgroundColor: "transparent",
-                  }}
-                >
-                  <span
-                    className={`font-[600] ${
-                      isDesktop && "text-[16px]"
-                    } 2xl:text-[14px] lg:text-[13px] sm:text-[12px] text-[10px]`}
-                  >
-                    {conntected
-                      ? truncate(publicKey.toString(), 10)
-                      : "CONNECT WALLET"}
-                  </span>
-                </WalletMultiButton>
-              </ButtonPrimary>
-            </li>
           </ul>
         </Transition>
       </div>

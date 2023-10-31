@@ -8,12 +8,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const WalletConnectionProvider = dynamic(
-  () => import("../context/WalletConnectionProvider"),
-  {
-    ssr: false,
-  }
-);
+
 
 const noAuthRequired = ["/auth/login", "/auth/signup"];
 
@@ -22,7 +17,6 @@ export default function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <WalletConnectionProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           {noAuthRequired.includes(router.pathname) ? (
@@ -35,6 +29,5 @@ export default function MyApp({ Component, pageProps }) {
           <ToastContainer />
         </PersistGate>
       </Provider>
-    </WalletConnectionProvider>
   );
 }

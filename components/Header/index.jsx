@@ -56,28 +56,10 @@ const Header = ({ connected, publicKey }) => {
             @{user.user.name}
           </p>
         </div>
-        <div className="hidden lg:flex ml-8 bg-[#e2bdff3d] max-w-[135px] h-[40px]  border-[2px] border-solid rounded-[30px]  border-[#7A7A7A] mx-auto justify-end items-center px-2">
-          <Image
-            alt="earth"
-            src="/static/images/icons/earth.png"
-            className="object-cover cursor-pointer xl:w-[20px] lg:w-[19px] sm:w-[16px]  xl:h-[20px] lg:h-[19px] sm:h-[16px] "
-            width={45}
-            height={45}
-            onClick={() => {
-              router.push("/");
-            }}
-          />
-          <p className="font-bold font-Inter text-white lg:text-[9px] ml-[2px] xl:text-[10px] lg:text-[8x]">
-            Points:
-          </p>
-          <p className="font-bold font-Inter text-[#d6cfffc4] lg:text-[9px] xl:text-[10px] ml-[3px]">
-            10
-          </p>
-        </div>
         {/* earth_image */}
         <Image
           alt="earth"
-          src="/static/images/icons/earth.png"
+          src="/static/images/user/post_member1.png"
           className="cursor-pointer absolute sm:mt-[2px] mt-[3px] xl:w-[86px] sm:w-[65px] w-[35px] xl:h-[86px] sm:h-[65px] h-[35px] mx-auto left-0 right-0"
           width={86}
           height={86}
@@ -85,12 +67,6 @@ const Header = ({ connected, publicKey }) => {
             router.push("/");
           }}
         />
-        {/* beta */}
-        <div className="absolute  bg-[#e2bdff3d] xl:w-[34px] sm:w-[30px] w-[25px] xl:h-[16px] sm:h-[13px] h-[10px]  border-[1px] border-solid rounded-[30px]  border-[#7A7A7A] mx-auto sm:left-[90px] left-[50px] right-0 top-4 flex justify-center items-center">
-          <p className="font-bold font-Inter text-white xl:text-[10px]  sm:text-[10px] text-[8px]  ">
-            BETA
-          </p>
-        </div>
         {/* search_bar */}
         <div className="hidden xl:flex relative mr-10">
           <input
@@ -107,50 +83,7 @@ const Header = ({ connected, publicKey }) => {
             height={30}
           />
         </div>
-        {/* wallet_button */}
-        <ButtonPrimary
-          sizeClass="2xl:w-[180px] xl:w-[160px] md:w-[150px] w-[140px] 2xl:h-[45px] xl:h-[40px] lg:h-[38px] sm:h-[35px] h-[35px] "
-          fontSize="font-[600] 2xl:text-[25px] xl:text-[22px] lg:text-[18px] text-[12px]"
-          className={`rounded-full xl:mr-0 lg:mr-[90px] lg:flex hidden `}
-          onClick={connectAccount}
-        >
-          <WalletMultiButton
-            style={{
-              width: "100%",
-              height: "100%",
-              padding: "0px",
-              margin: "0px",
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              backgroundColor: "transparent",
-            }}
-          >
-            {connected ? (
-              <span
-                className={`font-[600] 2xl:text-[15px] lg:text-[13px] sm:text-[12px] text-[10px]`}
-              >
-                {truncate(publicKey.toString(), 10)}
-              </span>
-            ) : (
-              <div className="w-full h-full flex justify-center items-center gap-[10px]">
-                <Image
-                  alt="avatar"
-                  src="/static/images/icons/sol1.png"
-                  className={`2xl:w-[30px] w-[20px] 2xl:h-[30px] h-[20px]`}
-                  width={55}
-                  height={55}
-                />
-                <span
-                  className={`font-[600] 2xl:text-[15px] lg:text-[14px] sm:text-[13px] text-[11px]`}
-                  style={{ fontFamily: "Inter" }}
-                >
-                  CONNECT
-                </span>
-              </div>
-            )}
-          </WalletMultiButton>
-        </ButtonPrimary>
+       
         {/* noticification */}
         <div className="absolute right-[70px] md:right-[160px] xl:right-12">
           <div className="relative ml-0 items-center">
