@@ -37,7 +37,7 @@ export const Card = () => {
                 email@flowbite.com
               </p>
             </div>
-            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+            <div className="inline-flex items-center text-base font-semibold text-gray-900 max-sm:hidden dark:text-white">
               ABOUT ME
             </div>
             <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">

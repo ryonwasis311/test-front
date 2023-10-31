@@ -19,7 +19,7 @@ const PostPage = () => {
             <div className="h-full rounded-[20px] border-[2px] border-solid border-[#5C5C5C] bg-[#212121] flex flex-col">
               {/* header */}
               <div className="flex justify-center items-center mt-5 mb-5">
-                <p className="text-white 2xl:text-[30px] xl:text-[28px] sm:text-[24px] text-[22px] font-[500] "> User Management</p>
+                <p className="text-white 2xl:text-[30px] xl:text-[28px] sm:text-[24px] text-[18px] font-[500] "> User Management</p>
               </div>
               {/* user infromation */}
               <Card />

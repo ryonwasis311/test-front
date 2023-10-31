@@ -22,9 +22,9 @@ export default function MyApp({ Component, pageProps }) {
           {noAuthRequired.includes(router.pathname) ? (
             <>{getLayout(<Component {...pageProps} />)}</>
           ) : (
-            <ProtectedRoute>
-              {getLayout(<Component {...pageProps} />)}
-            </ProtectedRoute>
+            // <ProtectedRoute>
+              getLayout(<Component {...pageProps} />)
+            // </ProtectedRoute>
           )}
           <ToastContainer />
         </PersistGate>
