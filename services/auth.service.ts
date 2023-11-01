@@ -11,12 +11,12 @@ import {
 
 class AuthService {
   async login(payload: ILoginRequest) {
-    const res = await http.post<ILoginResponse>(`/auth/login`, payload);
+    const res = await http.post<ILoginResponse>(`/auth/signin`, payload);
     return res.data;
   }
 
   async register(payload: IRegisterRequest) {
-    const res = await http.post<ILoginResponse>(`/auth/register`, payload);
+    const res = await http.post<ILoginResponse>(`/auth/signup`, payload);
     return res.data;
   }
 

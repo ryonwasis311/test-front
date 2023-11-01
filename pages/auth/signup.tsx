@@ -8,7 +8,7 @@ import { toastNotification } from "../../components/ToastNTF";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { authService } from "../../services";
 import ButtonPrimary from "../../shared/Button/ButtonPrimary";
-import { logIn, updateAvatar, updateName, updateNickName } from "../../store/user";
+import user, { logIn, updateAvatar, updateName, updateNickName } from "../../store/user";
 import { truncate } from "../../utils";
 import { useMediaQuery } from "react-responsive";
 import { emit } from "process";
@@ -66,7 +66,28 @@ const SignUpPage = () => {
     };
   }, []);
 
+  const handleSubmit = () => {
+    const submit = async (user) => {
+      return await authService.register(user);
+    };
 
+    let user = {
+      username: name,
+      email: email,
+      password: password,
+    };
+
+    submit(user)
+      .then((data:any) => {
+        if (data.message === "User was registered successfully!") {
+          toastNotification("User was registered suceessfully!", "success", 5000);
+          router.push("/users");  
+        }
+      })
+      .catch(() => {
+        toastNotification("Registered failed", "error", 5000);
+      });
+  };
 
   return (
     <>
@@ -233,7 +254,7 @@ const SignUpPage = () => {
                 }`}
               fontSize="font-[600] 2xl:text-[30px] xl:text-[22px] lg:text-[18px] text-[12px]"
               className={`rounded-full`}
-            // onClick={}
+              onClick={handleSubmit}
             >
 
               <div className="w-full h-full flex justify-center items-center gap-[10px]">

@@ -3,13 +3,13 @@ import { IUser } from ".";
 export interface ILoginRequest {
   name: string;
   password: string;
-  address: string;
+  email: string;
 }
 
 export interface IRegisterRequest extends ILoginRequest {
   name: string;
   password: string;
-  walletaddress: string;
+  email: string;
 }
 
 export interface ILoginResponse {

@@ -54,7 +54,28 @@ const LoginPage = () => {
       return await authService.login(user);
     };
   }, []);
+  const handleSubmit = () => {
+    const submit = async (user) => {
+      return await authService.login(user);
+    };
 
+    let user = {
+      username: name,
+      email: email,
+      password: password,
+    };
+
+    submit(user)
+      .then((data:any) => {
+        if (data.msg === "login sucess") {
+          toastNotification("User was Login suceessfully!", "success", 5000);
+          router.push("/users");  
+        }
+      })
+      .catch(() => {
+        toastNotification("LogIn failed", "error", 5000);
+      });
+  };
 
 
   return (
@@ -229,7 +250,7 @@ const LoginPage = () => {
                 }`}
               fontSize="font-[600] 2xl:text-[30px] xl:text-[22px] lg:text-[18px] text-[12px]"
               className={`rounded-full`}
-            // onClick={}
+            onClick={handleSubmit}
             >
 
               <div className="w-full h-full flex justify-center items-center gap-[10px]">

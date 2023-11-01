@@ -4,7 +4,7 @@ const config = {
     ENGINE_WS_URL: "ws://localhost:4201",
   },
   development: {
-    API_URL: "http://192.168.3.42:4200/api",
+    API_URL: "http://localhost:8000/api",
     ENGINE_WS_URL: "ws://localhost:4201",
   },
   production: {

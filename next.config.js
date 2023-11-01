@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['192.168.3.42', 'wsrv.nl'],
+    domains: ['', 'wsrv.nl'],
   },
   async rewrites() {
     return [
