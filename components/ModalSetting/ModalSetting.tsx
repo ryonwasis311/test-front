@@ -4,11 +4,9 @@ import ButtonPrimary from "../../shared/Button/ButtonPrimary";
 import NcModal from "../../shared/NcModal/NcModal";
 import Image from "next/image";
 import ButtonFile from "../../shared/Button/ButtonFile";
-import { imgSrc, truncate } from "../../utils";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser, updateAvatar, updateNickName } from "../../store/user";
-import { Spin } from "antd";
+import { selectUser, updateUser } from "../../store/user";
 import { ThreeDots } from "react-loader-spinner";
 import { toastNotification } from "../ToastNTF";
 import { userService } from "../../services";
@@ -24,9 +22,9 @@ const ModalSetting: FC<ModalSettingProps> = ({
 }) => {
   const textareaRef = useRef(null);
   const curUser = useSelector(selectUser);
-  const [password, setPssword] = useState("");
-  const [email, setEmail] = useState("");
-  const [nickname, setNickName] = useState("");
+  const [password, setPassword] = useState(curUser.user.password);
+  const [email, setEmail] = useState(curUser.user.email);
+  const [name, setName] = useState(curUser.user.username);
   const [isPass, setIsPass] = useState(true);
   const [isEmailEdit, setisEmailEdit] = useState(false);
   const [isNameEdit, setNameEdit] = useState(false);
@@ -41,9 +39,9 @@ const ModalSetting: FC<ModalSettingProps> = ({
   const [invalidEmail, setInvalidEmail, invalidEmailRef] = useState(false);
   const [invalidPass, setInvalidPass, invalidPassRef] = useState(false);
   const [coverLetter, setCoverLetter] = useState("");
-  const [isCoverLetter, setIsCoverLetter ] =useState(false)
+  const [isCoverLetter, setIsCoverLetter] = useState(false)
   const dispatch = useDispatch();
-  const onChangeBio = () =>{
+  const onChangeBio = () => {
     setIsCoverLetter(!isCoverLetter);
   }
   const onSelectPic = (e: any) => {
@@ -57,26 +55,34 @@ const ModalSetting: FC<ModalSettingProps> = ({
 
   const onChangePic = async () => {
     setIsSelectImage(false);
-    // if (newImage) {
-    //   setIsUpdating(true);
 
-    //   const formdata = new FormData();
-    //   if (newImage) {
-    //     formdata.append("name", curUser.user.name);
-    //     formdata.append("avatar", newImage);
-    //   }
-    //   const data: any = await userService.changeAvatar(formdata);
-    //   if (data.msg === "success") {
-    //     toastNotification("Avatar Image edited", "success", 5000);
-    //     dispatch(updateAvatar(`${data.user.avatar}`));
-    //     setEditImage(`${data.user.avatar}`);
-    //   } else {
-    //     toastNotification("Avatar Image error", "error", 5000);
-    //   }
-    //   setIsUpdating(false);
-    // }
   };
 
+  const handleUpdate =()=>{
+    const submit = async (payload) =>{
+      return await userService.updateUser(payload)
+    }
+    const userId = curUser.user._id;
+    const newUser ={
+      username: name,
+      email:email,
+      password: password,
+    }
+    const payload ={
+      userId,
+      newUser,
+    }
+    submit(payload)
+    .then ((data:any) =>{
+      if(data.message ==="User updated successfully!")
+      {
+        toastNotification("User was updated successfully!", "success", 5000);
+        dispatch(updateUser(payload.newUser))
+        onCloseModalSetting()
+      }
+    })
+
+  }
 
   const renderContent = () => {
     return (
@@ -93,13 +99,11 @@ const ModalSetting: FC<ModalSettingProps> = ({
               >
                 <input
                   type="text"
-                  readOnly={!isNameEdit ? true : false}
-                  className={`placeholder:text-placehd w-full h-full md:px-[15px] sm:px-[10px] px-[7px] rounded-full bg-transparent font-[700] 2xl:text-[24px] xl:text-[22px] sm:text-[19px] text-[15px] text-white text-center absolute top-0 left-0 z-10 flex justify-center items-center ${!isNameEdit && "pointer-events-none"
-                    }`}
+                  className={`placeholder:text-placehd w-full h-full md:px-[15px] sm:px-[10px] px-[7px] rounded-full bg-transparent font-[700]  2xl:text-[18px] xl:text-[16px] sm:text-[14px] text-[14px] text-white text-center absolute top-0 left-0 z-10 flex justify-center items-center`}
                   style={{ textOverflow: "ellipsis" }}
-                  value={nickname}
+                  value={name}
                   onChange={(e: any) => {
-                    setNickName(e.target.value);
+                    setName(e.target.value);
                   }}
                 />
                 <div className="absolute w-full h-full top-0 left-0 rounded-full bg-formback  z-1"></div>
@@ -114,35 +118,22 @@ const ModalSetting: FC<ModalSettingProps> = ({
                 Name is incorrect
               </div>
             </div>
-            {/* edit or update button */}
-            <ButtonPrimary
-              sizeClass="2xl:w-[74px] sm:w-[60px] w-[50px] 2xl:h-[28px] xl:h-[26px] h-[20px]"
-              fontSize="font-Inter font-[600] 2xl:text-[14px] md:text-[10px] text-[6px] tracking-[2px]"
-              className={`sm:rounded-[14px] rounded-[8px] z-10 2xl:mb-5 xl:mb-[18px] lg:mb-[20px] sm:mb-[20px] mb-[20px] ${nickname === "" && "pointer-events-none opacity-50"
-                }`}
-            // onClick={}
-            >
-              {isNameEdit ? "UPDATE" : "EDIT"}
-            </ButtonPrimary>
           </div>
           {/* edit email */}
           <div className="col-span-1 flex justify-center items-center gap-[10px]">
             <div className="flex flex-col items-center justify-center ">
               {/* email inputfield */}
               <div
-                className={`2xl:w-[190px] xl:w-[160px] lg:w-[140px] md:w-[120px] sm:w-[100px] w-[100px] 2xl:h-50px] lg:h-[40px] md:h-[35px] h-[30px] px-[16px] pt-[7px] relative flex justify-center items-center ${!isNameEdit && "cursor-not-allowed"
-                  }`}
+                className={`2xl:w-[190px] xl:w-[160px] lg:w-[140px] md:w-[120px] sm:w-[100px] w-[100px] 2xl:h-50px] lg:h-[40px] md:h-[35px] h-[30px] px-[16px] pt-[7px] relative flex justify-center items-center`}
               >
                 <input
                   type="text"
-                  readOnly={!isNameEdit ? true : false}
-                  className={`placeholder:text-placehd w-full h-full md:px-[15px] sm:px-[10px] px-[7px] rounded-full bg-transparent font-[700] 2xl:text-[24px] xl:text-[22px] sm:text-[19px] text-[15px] text-white text-center absolute top-0 left-0 z-10 flex justify-center items-center ${!isNameEdit && "pointer-events-none"
-                    }`}
+                  className={`placeholder:text-placehd w-full h-full md:px-[15px] sm:px-[10px] px-[7px] rounded-full bg-transparent font-[700] 2xl:text-[18px] xl:text-[16px] sm:text-[14px] text-[14px] text-white text-center absolute top-0 left-0 z-10 flex justify-center items-center `}
                   style={{ textOverflow: "ellipsis" }}
                   value={email}
-                // onChange={(e: any) => {
-                //   setName(e.target.value);
-                // }}
+                  onChange={(e: any) => {
+                    setEmail(e.target.value);
+                  }}
                 />
                 <div className="absolute w-full h-full top-0 left-0 rounded-full bg-formback  z-1"></div>
               </div>
@@ -156,16 +147,6 @@ const ModalSetting: FC<ModalSettingProps> = ({
                 Email is incorrect
               </div>
             </div>
-            {/* edit or update button */}
-            <ButtonPrimary
-              sizeClass="2xl:w-[74px] sm:w-[60px] w-[50px] 2xl:h-[28px] xl:h-[26px] h-[20px]"
-              fontSize="font-Inter font-[600] 2xl:text-[14px] md:text-[10px] text-[6px] tracking-[2px]"
-              className={`sm:rounded-[14px] rounded-[8px] z-10 2xl:mb-5 xl:mb-[18px] lg:mb-[20px] sm:mb-[20px] mb-[20px] ${nickname === "" && "pointer-events-none opacity-50"
-                }`}
-            // onClick={onChangeEmail}
-            >
-              {isNameEdit ? "UPDATE" : "EDIT"}
-            </ButtonPrimary>
           </div>
         </div>
         {/* user password and avatar */}
@@ -175,11 +156,11 @@ const ModalSetting: FC<ModalSettingProps> = ({
               <div className="2xl:w-[190px] xl:w-[160px] lg:w-[140px] md:w-[120px] sm:w-[100px] w-[80px] 2xl:h-[50px] lg:h-[40px] md:h-[35px] h-[30px] px-[16px] pt-[7px] relative flex justify-center items-center">
                 <input
                   id="pass"
-                  type={`${isPass ? "password" : "text"}`}
+                  type="password"
                   className="px-[15px] placeholder:text-placehd w-full h-full rounded-full bg-transparent font-[700] 2xl:text-[24px] xl:text-[20px] sm:text-[19px] text-[15px] text-white text-center absolute top-0 left-0 z-10 flex justify-center items-center"
                   value={password}
                   onChange={(e: any) => {
-                    setPssword(e.target.value);
+                    setPassword(e.target.value);
                   }}
                 />
                 <div className="absolute w-full h-full top-0 left-0 rounded-full bg-formback z-1"></div>
@@ -193,29 +174,7 @@ const ModalSetting: FC<ModalSettingProps> = ({
               >
                 min 7 letters and 1 number
               </div>
-              {/* change password button */}
-              <ButtonPrimary
-                sizeClass="2xl:w-[160px] xl:w-[140px] md:w-[120px] sm:w-[90px] w-[80px] 2xl:h-[34px] xl:h-[32px] h-[30px]"
-                fontSize="font-Inter font-[600] 2xl:text-[14px] md:text-[10px] text-[6px]text-placehd2"
-                className={`rounded-[14px] z-10 mt-[10px] flex justify-center ${password === "" && "pointer-events-none opacity-50"
-                  }`}
-              // onClick={onChangePass}
-              >
-                <p className="xl:text-[10px] lg:text-[8px] sm:text-[7px] text-[5px]">
-                  CHANGE PASSWORD
-                </p>
-              </ButtonPrimary>
             </div>
-            {/* show or hide button */}
-            <ButtonPrimary
-              sizeClass="2xl:w-[74px] sm:w-[60px] w-[50px] 2xl:h-[28px] h-[20px] 2xl:mt-[12px] xl:mt-[8px] lg:mt-[10px] sm:mt-[4px] mt-[4px]"
-              fontSize="font-Inter font-[600] 2xl:text-[14px] text-[8px] tracking-[2px]"
-              className={`rounded-[14px] z-10  ${password === "" && "pointer-events-none opacity-50"
-                }`}
-            // onClick={setPassType}
-            >
-              {isPass ? "SHOW" : "HIDE"}
-            </ButtonPrimary>
           </div>
           <div className="col-span-1 flex justify-center items-center gap-[10px]">
             <Image
@@ -251,7 +210,7 @@ const ModalSetting: FC<ModalSettingProps> = ({
           </div>
         </div>
         {/* BIO */}
-        <div className="w-full 2xl:h-[300px] xl:h-[300px] lg:h-[250px] md:h-[200px]   flex justify-center items-center">
+        <div className="w-full 2xl:h-[350px] xl:h-[350px] lg:h-[250px] md:h-[200px]   flex justify-center items-center">
           <div className="2xl:w-[80%] lg:w-[80%] flex-col w-[75%] 2xl:h-[80%] h-[80%] pt-[7px] relative flex justify-center border-[#5C5C5C]   items-center xl:mt-[10px] mt-[5px]">
             <textarea
               className="placeholder:text-placehd w-full h-full  md:px-[10px] sm:px-[8px] px-[3px] rounded-[15px] bg-[#212121] font-[400] 2xl:text-[14px] xl:text-[12px] sm:text-[12px] text-[10px] text-white   border -[2px] border-solid border-[#5C5C5C]   flex justify-start resize-none overflow-y-hidden py-1   max-w-[600px]"
@@ -272,6 +231,14 @@ const ModalSetting: FC<ModalSettingProps> = ({
               onClick={onChangeBio}
             >
               {isCoverLetter ? "UPDATE" : "EDIT"}
+            </ButtonPrimary>
+            <ButtonPrimary
+              sizeClass="2xl:w-[174px] sm:w-[160px] w-[100px] 2xl:h-[48px] h-[40px]"
+              fontSize="font-Inter font-[600] 2xl:text-[14px] text-[10px]"
+              className="rounded-[14px] w-full h-full mt-4"
+              onClick={handleUpdate}
+            >
+              Update
             </ButtonPrimary>
           </div>
         </div>
@@ -295,7 +262,7 @@ const ModalSetting: FC<ModalSettingProps> = ({
       contentExtraClass="max-w-[700px] xl:w-[700px] lg:w-[600px] sm:w-[500px] w-[330px] 2xl:h-[670px] xl:h-[600px] md:h-[570px] h-[400px]"
       renderContent={renderContent}
       renderTrigger={renderTrigger}
-      modalTitle="NEW USER"
+      modalTitle="My Profile"
     />
   );
 };

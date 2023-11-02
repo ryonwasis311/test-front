@@ -3,10 +3,6 @@ import {
   ILoginRequest,
   ILoginResponse,
   IRegisterRequest,
-  IRefreshTokenRequest,
-  IUser,
-  I2FASecret,
-  ITotpTokenRequest,
 } from "../types";
 
 class AuthService {
@@ -20,32 +16,12 @@ class AuthService {
     return res.data;
   }
 
-  refreshToken(payload: IRefreshTokenRequest) {
-    return http.post<ILoginResponse>(`/auth/refresh-token`, payload);
+  async logout(payload:any) {
+    const res =await http.delete('auth/signout', payload);
+    return res.data
   }
 
-  async me() {
-    const res = await http.get<IUser>(`/auth/me`);
-    return res.data;
-  }
 
-  async get2FASecret() {
-    const res = await http.get<I2FASecret>("/auth/totp-secret");
-    return res.data;
-  }
-
-  async deactive2FASecret(payload: ITotpTokenRequest) {
-    const res = await http.post<ILoginResponse>(
-      "/auth/totp-deactivate",
-      payload
-    );
-    return res.data;
-  }
-
-  async verify2FA(payload: ITotpTokenRequest) {
-    const res = await http.post<ILoginResponse>("/auth/totp-verify", payload);
-    return res.data;
-  }
 }
 
 export const authService = new AuthService();

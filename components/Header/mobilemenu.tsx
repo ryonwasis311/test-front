@@ -8,7 +8,7 @@ import { Transition } from "@headlessui/react";
 import { truncate } from "../../utils";
 import { useMediaQuery } from "react-responsive";
 
-const MobileMenu = ({ conntected, publicKey }): ReactElement => {
+const MobileMenu = ({ conntected}): ReactElement => {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
   const trigger = useRef<HTMLElement>(null);
   const mobileNav = useRef<HTMLElement>(null);

@@ -18,7 +18,10 @@ export const ButtonGroup = () => {
   const [isdisabled, SetIsdisabled] = useState<boolean>(false);
   const handleDashboard = () =>{
     router.push("/dashboard")
-  }
+   }
+   const handleLogOut = () =>{
+    router.push("/auth/signup");
+  }  
  
   return (
     <>
@@ -69,7 +72,7 @@ export const ButtonGroup = () => {
                 }
                
                 `}
-                // onClick={handleDashboard}
+                onClick={handleLogOut}
             >
               <p
                 className={`lg:text-[16px] 2xl:text-[18px] sm:text-[17px] text-[10px] lg:tracking-[0.5px]    font-semibold font-Inter  text-white ${isdisabled ? `text-opacity-40` : `text-opacity-100`

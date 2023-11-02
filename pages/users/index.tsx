@@ -1,13 +1,39 @@
 import MainLayout from "../../layouts/MainLayout";
 import Image from "next/image";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
-
+import useState from "react-usestateref";
 import { Card } from "../../components/Card";
 import { ButtonGroup } from "../../contents/Post/ButtonGroup";
-
+import { useEffect } from "react";
+import { userService } from "../../services";
+import { selectUserGroup } from "../../store/userGroup";
+import { updateUserGroup } from "../../store/userGroup";
 const PostPage = () => {
-  const dispatch = useDispatch();
+  const [items, setItems] = useState([]);
 
+  const dispatch = useDispatch();
+  const userGroup = useSelector(selectUserGroup);
+  const [allUsers, setAllUsers] = useState<any>([]);
+  useEffect(() => {
+    const getAllUsers = async () => {
+      const userData: any = await userService.getAll();
+      dispatch(updateUserGroup(userData))
+
+    }
+    getAllUsers();
+
+  }, []);
+
+  useEffect(() => {
+    setAllUsers(userGroup);
+  }, [userGroup]);
+
+  const fetchMoreData = () => {
+    setTimeout(() => {
+      setItems(prevItems => prevItems.concat(Array.from({ length: 10 })));
+    }, 1500);
+  };
   return (
     <>
       <div className="lg:flex-row lg:justify-center items-center flex flex-col relative w-full h-full lg:overflow-hidden">
@@ -22,7 +48,26 @@ const PostPage = () => {
                 <p className="text-white 2xl:text-[30px] xl:text-[28px] sm:text-[24px] text-[18px] font-[500] "> User Management</p>
               </div>
               {/* user infromation */}
-              <Card />
+              <div
+                style={{ scrollbarWidth: 'none' }}
+                className="carousel-post h-full w-full overflow-auto">
+                <style>
+                  {`::-webkit-scrollbar {display: none;}`}
+                </style>
+                <InfiniteScroll
+                  dataLength={5}
+                  next={fetchMoreData}
+                  hasMore={true}
+
+                  loader={<div>loading...</div>}
+                >
+                  {allUsers?.map((eachUser: any, index: any) => {
+                    return (
+                      <Card index={index} user={eachUser} />
+                    );
+                  })}
+                </InfiniteScroll>
+              </div>
             </div>
           </div>
         </div>

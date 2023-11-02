@@ -8,10 +8,7 @@ import { toastNotification } from "../../components/ToastNTF";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { authService } from "../../services";
 import ButtonPrimary from "../../shared/Button/ButtonPrimary";
-import user, { logIn, updateAvatar, updateName, updateNickName } from "../../store/user";
-import { truncate } from "../../utils";
 import { useMediaQuery } from "react-responsive";
-import { emit } from "process";
 
 const SignUpPage = () => {
   const [invalidForm, setInvalidForm, invalidFormRef] = useState(true);
@@ -81,7 +78,7 @@ const SignUpPage = () => {
       .then((data:any) => {
         if (data.message === "User was registered successfully!") {
           toastNotification("User was registered suceessfully!", "success", 5000);
-          router.push("/users");  
+          router.push("/auth/login");  
         }
       })
       .catch(() => {

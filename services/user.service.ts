@@ -7,7 +7,24 @@ import {
 import { http } from "./api";
 
 class UserService {
-  async getAll() {}
+  async getAll() {
+    const res = await http.get('/users/all');
+    return res.data;
+  }
+  async addUser(payload:IUser) {
+    const res = await http.post('/users/add',payload);
+    return res.data;
+  }
+
+  async deleteUser(id:string) {
+    const res = await http.delete(`/user/${id}`);
+    return res.data;
+  }
+
+  async updateUser(payload:any) {
+    const res = await http.patch (`/user/${payload.userId}`,payload.newUser);
+    return res.data
+  }
 
   async recoverPwd(payload: RecoverPwdRequest) {
     const res = await http.post<boolean>(`/recover`, payload);

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import UserCreate from "../../components/ModalSetting/UserCreate";
 import { useRouter } from "next/router";
-
+import { logOut } from "../../store/user";
 export const ButtonGroupUsers = () => {
   const [isSetting , setIsSetting] = useState<boolean>(false);
   const closeModalSetting = () => {
@@ -19,7 +19,10 @@ export const ButtonGroupUsers = () => {
   const handleDashboard = () =>{
     router.push("/dashboard")
   }
- 
+  const handleLogOut = () =>{
+    dispatch(logOut)
+    router.push("/auth/signup");
+  }
   return (
     <>
       <div className="w-full h-full relative lg:mt-10 mt-0 lg:mb-10 mb-10">
@@ -69,7 +72,7 @@ export const ButtonGroupUsers = () => {
                 }
                
                 `}
-                // onClick={handleDashboard}
+                onClick={handleLogOut}
             >
               <p
                 className={`lg:text-[16px] 2xl:text-[18px] sm:text-[17px] text-[10px] lg:tracking-[0.5px]    font-semibold font-Inter  text-white ${isdisabled ? `text-opacity-40` : `text-opacity-100`

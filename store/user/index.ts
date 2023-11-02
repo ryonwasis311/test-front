@@ -9,12 +9,11 @@ export interface UserState {
 
 const initialState: UserState = {
   user: {
-    uid: "",
-    name: "",
-    nickname: "",
-    connected: false,
-    publicKey: "",
+    _id: "",
+    username: "",
+    email:"",
     avatar: "",
+    password:""
   },
   isLogin:
     typeof localStorage !== "undefined" && localStorage.getItem("token")
@@ -28,29 +27,27 @@ export const userSlice = createSlice({
   reducers: {
     initUser: (state) => {
       state.user = {
-        uid: "",
-        name: "",
-        nickname: "",
-        connected: false,
-        publicKey: "",
-        avatar: "",
+        _id: "",
+        username: "",
       };
     },
     updateUser: (state, action) => {
       state.user = action.payload;
     },
-    updateName: (state, action) => {
-      state.user.name = action.payload;
+    updateEmail: (state, action) => {
+      state.user.email = action.payload;
     },
-    updateNickName: (state, action) => {
-      state.user.nickname = action.payload;
+    updateName: (state, action) => {
+      state.user.username = action.payload;
+    },
+    updatePassword: (state, action) => {
+      state.user.password = action.payload;
+    },
+    updateId: (state, action) => {
+      state.user._id = action.payload;
     },
     updateAvatar: (state, action) => {
       return { ...state, user: { ...state.user, avatar: action.payload } };
-    },
-    setWallet: (state, action) => {
-      state.user.connected = action.payload.connected;
-      state.user.publicKey = action.payload.publicKey;
     },
     logIn: (state, action) => {
       localStorage.setItem("token", action.payload);
@@ -61,27 +58,25 @@ export const userSlice = createSlice({
     },
     logOut: (state) => {
       state.user = {
-        uid: "",
-        name: "",
-        nickname: "",
-        connected: false,
-        publicKey: "",
-        avatar: "",
+        _id: "",
+        username: "",
+        email:"",
+        password:"",
       };
       state.isLogin = false;
       localStorage.removeItem("token");
     },
   },
-  extraReducers: (builder) => {},
 });
 
 export const {
   initUser,
   updateUser,
   updateName,
-  updateNickName,
+  updateId,
   updateAvatar,
-  setWallet,
+  updateEmail,
+  updatePassword,
   logIn,
   logOut,
 } = userSlice.actions;

@@ -8,7 +8,7 @@ import { toastNotification } from "../../components/ToastNTF";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { authService } from "../../services";
 import ButtonPrimary from "../../shared/Button/ButtonPrimary";
-import { logIn, updateAvatar, updateName, updateNickName } from "../../store/user";
+import { logIn, updateAvatar, updateEmail, updateName, updateId, updatePassword } from "../../store/user";
 import { truncate } from "../../utils";
 import { useMediaQuery } from "react-responsive";
 
@@ -49,11 +49,7 @@ const LoginPage = () => {
     }
   }, [name, password]);
 
-  useEffect(() => {
-    const submit = async (user) => {
-      return await authService.login(user);
-    };
-  }, []);
+
   const handleSubmit = () => {
     const submit = async (user) => {
       return await authService.login(user);
@@ -66,10 +62,15 @@ const LoginPage = () => {
     };
 
     submit(user)
-      .then((data:any) => {
+      .then((data: any) => {
         if (data.msg === "login sucess") {
           toastNotification("User was Login suceessfully!", "success", 5000);
-          router.push("/users");  
+          dispatch(logIn(data.token));
+          dispatch(updateName(data.username));
+          dispatch(updatePassword(data.password));
+          dispatch(updateId(data.id));
+          dispatch(updateEmail(data.email));
+          router.push("/users");
         }
       })
       .catch(() => {
@@ -88,7 +89,7 @@ const LoginPage = () => {
             : "2xl:text-[55px] xl:text-[55px] lg:text-[43px] md:text-[42px] sm:text-[40px] text-[38px]"
             } font-bold uppercase text-white font-Inter tracking-[6.4px] xl:mt-[-30px] mt-[-20px]`}
         >
-         SB Company 
+          SB Company
 
         </div>
         <div
@@ -250,7 +251,7 @@ const LoginPage = () => {
                 }`}
               fontSize="font-[600] 2xl:text-[30px] xl:text-[22px] lg:text-[18px] text-[12px]"
               className={`rounded-full`}
-            onClick={handleSubmit}
+              onClick={handleSubmit}
             >
 
               <div className="w-full h-full flex justify-center items-center gap-[10px]">

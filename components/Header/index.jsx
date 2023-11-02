@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../store/user";
 import MobileMenu from "./mobilemenu";
 
-const Header = ({ connected, publicKey }) => {
+const Header = () => {
   const [isSetting, setIsSetting] = useState(false);
   const router = useRouter();
   const openModalSetting = () => setIsSetting(true);
@@ -49,11 +49,9 @@ const Header = ({ connected, publicKey }) => {
           <ModalSetting
             show={isSetting}
             onCloseModalSetting={closeModalSetting}
-            connected={connected}
-            publicKey={publicKey}
           />
           <p className="items-center self-center ml-1 text-white text-[16px] font-Inter">
-            @{user.user.name}
+            @{user.user.username}
           </p>
         </div>
         {/* earth_image */}
@@ -114,7 +112,7 @@ const Header = ({ connected, publicKey }) => {
           </div>
         </div>
         {/* mobile_menu */}
-        <MobileMenu conntected={connected} publicKey={publicKey} />
+        <MobileMenu  />
         {/* border */}
       </div>
       <div className="border-b-2 border-b-[#5C5C5C]"></div>
